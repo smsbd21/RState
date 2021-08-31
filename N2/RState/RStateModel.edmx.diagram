@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ac2aa0cf747e4819a76d372f96398141" Name="Diagram1">
+        <EntityTypeShape EntityType="RStateModel.Tb_Pictures" Width="1.5" PointX="4.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RStateModel.Tb_Prop_Pictures" Width="1.5" PointX="6.25" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RStateModel.Tb_Properties" Width="1.5" PointX="4.375" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RStateModel.Tb_User_Pictures" Width="1.5" PointX="2.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RStateModel.Tb_Users_Info" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="RStateModel.FK_ProPic_Pic" ManuallyRouted="false" />
+        <AssociationConnector Association="RStateModel.FK_UsrPic_Pic" ManuallyRouted="false" />
+        <AssociationConnector Association="RStateModel.FK_ProPic_Pro" ManuallyRouted="false" />
+        <AssociationConnector Association="RStateModel.FK_UsrPic_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RStateModel.Tb_Bookings" Width="1.5" PointX="2.5" PointY="2.625" />
+        <AssociationConnector Association="RStateModel.FK_Book_Prop" />
+        <AssociationConnector Association="RStateModel.FK_Book_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

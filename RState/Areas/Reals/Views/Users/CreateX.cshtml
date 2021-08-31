@@ -1,0 +1,158 @@
+﻿@model RState.Tb_Users
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+<div class="form-horizontal">
+    <h4>Create Users Information</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CellNo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.CellNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.CellNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Share, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Share, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Share, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.HashPwd, "Password", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            @Html.EditorFor(model => model.HashPwd, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.HashPwd, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.UserPic, "Picture", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            <input type="hidden" id="UserPic" name="UserPic" value="" />
+            <input type="file" id="UserPic" name="UserPic" class="form-control" />
+        </div>
+    </div>
+    @*<div id="picArea">
+            < img src="/images/site/@Model.UserPic" alt="Picture Area" class="img-fluid" style="padding:2px; height:160px; width:230px;" onclick="removePic(this)" />
+        </div>
+        <div class="form-group">
+                <div class="col-md-8">
+                    @Html.LabelFor(model => model.UserPic,"Picture")
+                    @Html.EditorFor(model => model.UserPic, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.UserPic, "", new { @class = "text-danger" })
+                </div>
+            </div>
+                <div class="form-group">
+                        <div class="col-md-8">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.Status)
+                                @Html.LabelFor(model => model.Status)
+                                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-8">
+            <button type="submit" class="btn btn-outline-success">
+                <i class="fas fa-user-plus mr-2"> Save</i>
+            </button> &nbsp; | &nbsp;
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    </div>
+</div>
+}
+
+<div id="picTemp" hidden>
+    <img src="" class="img-fluid" style="padding:2px; height:160px; width:230px;" onclick="removePic(this)" />
+</div>
+
+<script>
+        // Save images into directory
+        $("#chosePic").change(function () {
+            var oImg = this.files;
+            var oFormData = new FormData();
+            for (var i = 0; i < oImg.length; i++) {
+                oFormData.append("Picture", oImg[i]);
+            }
+            $.ajax({
+                type: "post",
+                url: '@Url.Action("UploadPictures", "RState")',
+                data: oFormData,
+                dataType: "json",
+                processData: false,
+                contentType: false,
+            }).done(function (resp) {
+                for (var i = 0; i < resp.length; i++) {
+                    // Display Images
+                    var imgResp = resp[i];
+                    var $imgHTML = $("#picTemp").clone();
+                    $imgHTML.find("img").attr("src", "/images/site/" + imgResp.UserPic);
+                    //$imgHTML.find("img").attr("data-id", imgResp.Id);
+                    $("#picArea").append($imgHTML.html());
+                }
+            });
+        });
+
+        // Remove Selected Images
+        function removePic(element) {
+            element.remove();
+        }
+    </script>

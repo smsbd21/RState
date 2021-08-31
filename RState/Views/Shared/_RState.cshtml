@@ -1,0 +1,80 @@
+@using RState.Code
+@using System.Web.Mvc;
+@using System.Web.Mvc.Html;
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@Variables.ShortName</title>
+    <!-- Template sidebar CSS -->
+    <link href="~/Content/css/sidebar.css" rel="stylesheet" />
+    <!-- Bootstrap and Fontfaces CSS -->
+    <link href="~/fonts/awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Content/vendor/jquery/jquery.min.js"></script>
+    <link href="~/Content/css/overrides.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <a href="@Url.Action("Index", "Home")" class="list-group-item-action">
+                    <i class="fas fa-hotel mr-2"></i>@Variables.ShortName
+                </a>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="@Url.Action("Index","Properties")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-sitemap mr-2"></i>Properties
+                </a>
+                <a href="@Url.Action("Index","Bookings")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-anchor mr-2"></i>Bookings
+                </a>
+                <a href="@Url.Action("Index","UsersInfo")" class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-users mr-2"></i>Users
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <i class="fas fa-sign-out-alt mr-2"></i>
+                            Welcome @Session["login"] @Html.ActionLink("Logout", "Logout", "Home") Logout
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container-fluid">
+                @RenderBody()
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+
+
+    <!-- /#wrapper -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="~Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+</body>
+</html>

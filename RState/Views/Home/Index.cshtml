@@ -1,0 +1,103 @@
+﻿@using RState.Code
+@model RState.Models.HomeViewModel
+
+<aside id="colorlib-hero">
+    <div class="flexslider">
+        <ul class="slides">
+            @foreach (var itmp in Model.GetPicturesByProId(Model.Properties.FirstOrDefault().Id))
+            {
+                <li style="background-image: url(/images/site/@itmp.PicUrl);">
+                    <div class="overlay"></div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-md-offset-3 slider-text">
+                                <div class="slider-text-inner text-center">
+                                    <h2>Welcome to the @Variables.ShortName</h2>
+                                    <h2>A Real State Management</h2>
+                                    <p> 
+                                        <a href="@Url.Action("Booking", "Home", new { Area = "", PropId = @Model.Properties.FirstOrDefault().Id })" class="btn btn-primary btn-learn">Booking Now</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</aside>
+
+<div id="colorlib-rooms" class="colorlib-light-grey" style="padding: 2em 0 0 2em;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center colorlib-heading animate-box">
+                <span><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+                <h2>Properties Available</h2>
+                <p>We love to tell our successful far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 animate-box">
+                <div class="owl-carousel owl-carousel2">
+                    @foreach (var item in Model.Properties)
+                    {
+                        <div class="item">
+                            <a href="/images/site/@Model.GetPicturesByProId(Model.Properties.FirstOrDefault().Id).FirstOrDefault().PicUrl" class="room image-popup-link" style="background-image: url(/images/site/@Model.GetPicturesByProId(Model.Properties.FirstOrDefault().Id).FirstOrDefault().PicUrl);"></a>
+                            <div class="desc text-center">
+                                <span class="rate-star"><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full full"></i><i class="icon-star-full"></i><i class="icon-star-full"></i></span>
+                                <h3><a href="rooms-suites.html">@item.Title</a></h3>
+                                <p class="price">
+                                    <span class="currency">$</span>
+                                    <span class="price-room">@item.Price</span>
+                                    <span class="per">/</span>
+                                </p>
+                                <ul>
+                                    <li><i class="icon-check"></i> No Of Booking: @item.Nob </li>
+                                    <li><i class="icon-check"></i> Location: @item.Location</li>
+                                    <li><i class="icon-check"></i> Only @item.NoShare share are available</li>
+                                    <li><i class="icon-check"></i> Available On: @item.ExpDate.Date.ToString("dd-MMM-yyyy")</li>
+                                    @if (item.Discount > 0)
+                                    {
+                                        <li><i class="icon-check"></i> Discount: @item.Discount</li>
+                                        <li><i class="icon-check"></i> Offer End: @item.OfferEnd</li>
+                                    }
+                                    <li><i class="icon-check"></i> Price does not include VAT &amp; services fee</li>
+                                </ul>
+                                <p id="@item.Id"><a href="@Url.Action("Booking", "Home", new { Area = "", PropId = @item.Id })" class="btn btn-primary btn-book">Book now!</a></p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="colorlib-dining-blog">
+    <div class="container" style="width:1480px;">
+        <div class="blog-entry" style="padding:2em 2em 0 0.5em;">
+            <div class="col-md-12 text-center animate-box">
+                <h2>Our Satisfied Share</h2>
+            </div>
+            @for(int x = 0; x < Model.Users.Count(); x += 5)
+            {
+                <div class="row">
+                    @foreach (var iusr in Model.Users.OrderBy(z=>z.Id).Skip(x).Take(5))
+                    {
+                        <div class="col-md-2 animate-box" style="width:20%;padding-left:0;">
+                            <a href="blog.html" class="blog-post">
+                                <span class="img" style="background-image: url(/images/site/@iusr.UserPic);"></span>
+                                <div class="desc" style="padding-left:96px;">
+                                    <span class="date">@iusr.PostedOn.Date.ToString("dd-MMM-yyyy")</span>
+                                    <h5 style="margin-bottom:0;">@iusr.CellNo</h5>
+                                    <span class="user">@iusr.Name</span><br />
+                                    <span class="user">@iusr.City</span>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

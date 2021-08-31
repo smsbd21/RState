@@ -1,0 +1,406 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="RStateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Tb_Bookings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PropId" Type="int" Nullable="false" />
+          <Property Name="InvAmt" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsAllow" Type="bit" Nullable="false" />
+          <Property Name="PostedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Pictures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PropId" Type="int" Nullable="false" />
+          <Property Name="PicUrl" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tb_Properties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="NoShare" Type="int" Nullable="false" />
+          <Property Name="ExpDate" Type="datetime" Nullable="false" />
+          <Property Name="Discount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Criteria" Type="varchar" MaxLength="5" />
+          <Property Name="OfferStart" Type="datetime" />
+          <Property Name="OfferEnd" Type="datetime" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Tb_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CellNo" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="256" />
+          <Property Name="Share" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+          <Property Name="UserPic" Type="nvarchar(max)" />
+          <Property Name="HashPwd" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Booking_Prop">
+          <End Role="Tb_Properties" Type="Self.Tb_Properties" Multiplicity="1" />
+          <End Role="Tb_Bookings" Type="Self.Tb_Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Bookings">
+              <PropertyRef Name="PropId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_User">
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="1" />
+          <End Role="Tb_Bookings" Type="Self.Tb_Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Bookings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pic_Prop">
+          <End Role="Tb_Properties" Type="Self.Tb_Properties" Multiplicity="1" />
+          <End Role="Tb_Pictures" Type="Self.Tb_Pictures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Pictures">
+              <PropertyRef Name="PropId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sp_getLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="usr" Type="nvarchar" Mode="In" />
+          <Parameter Name="pwd" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_getPropList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_getUserList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="RStateModelStoreContainer">
+          <EntitySet Name="Tb_Bookings" EntityType="Self.Tb_Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Pictures" EntityType="Self.Tb_Pictures" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Properties" EntityType="Self.Tb_Properties" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tb_Users" EntityType="Self.Tb_Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Booking_Prop" Association="Self.FK_Booking_Prop">
+            <End Role="Tb_Properties" EntitySet="Tb_Properties" />
+            <End Role="Tb_Bookings" EntitySet="Tb_Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_User" Association="Self.FK_Booking_User">
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+            <End Role="Tb_Bookings" EntitySet="Tb_Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pic_Prop" Association="Self.FK_Pic_Prop">
+            <End Role="Tb_Properties" EntitySet="Tb_Properties" />
+            <End Role="Tb_Pictures" EntitySet="Tb_Pictures" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RStateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Tb_Bookings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PropId" Type="Int32" Nullable="false" />
+          <Property Name="InvAmt" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsAllow" Type="Boolean" Nullable="false" />
+          <Property Name="PostedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Tb_Properties" Relationship="Self.FK_Booking_Prop" FromRole="Tb_Bookings" ToRole="Tb_Properties" />
+          <NavigationProperty Name="Tb_Users" Relationship="Self.FK_Booking_User" FromRole="Tb_Bookings" ToRole="Tb_Users" />
+        </EntityType>
+        <EntityType Name="Tb_Pictures">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PropId" Type="Int32" Nullable="false" />
+          <Property Name="PicUrl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tb_Properties" Relationship="Self.FK_Pic_Prop" FromRole="Tb_Pictures" ToRole="Tb_Properties" />
+        </EntityType>
+        <EntityType Name="Tb_Properties">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="NoShare" Type="Int32" Nullable="false" />
+          <Property Name="ExpDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Discount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Criteria" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="OfferStart" Type="DateTime" Precision="3" />
+          <Property Name="OfferEnd" Type="DateTime" Precision="3" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Tb_Bookings" Relationship="Self.FK_Booking_Prop" FromRole="Tb_Properties" ToRole="Tb_Bookings" />
+          <NavigationProperty Name="Tb_Pictures" Relationship="Self.FK_Pic_Prop" FromRole="Tb_Properties" ToRole="Tb_Pictures" />
+        </EntityType>
+        <EntityType Name="Tb_Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CellNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Share" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HashPwd" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Tb_Bookings" Relationship="Self.FK_Booking_User" FromRole="Tb_Users" ToRole="Tb_Bookings" />
+        </EntityType>
+        <Association Name="FK_Booking_Prop">
+          <End Role="Tb_Properties" Type="Self.Tb_Properties" Multiplicity="1" />
+          <End Role="Tb_Bookings" Type="Self.Tb_Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Bookings">
+              <PropertyRef Name="PropId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Booking_User">
+          <End Role="Tb_Users" Type="Self.Tb_Users" Multiplicity="1" />
+          <End Role="Tb_Bookings" Type="Self.Tb_Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Bookings">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pic_Prop">
+          <End Role="Tb_Properties" Type="Self.Tb_Properties" Multiplicity="1" />
+          <End Role="Tb_Pictures" Type="Self.Tb_Pictures" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tb_Properties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tb_Pictures">
+              <PropertyRef Name="PropId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DbCon" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tb_Bookings" EntityType="Self.Tb_Bookings" />
+          <EntitySet Name="Tb_Pictures" EntityType="Self.Tb_Pictures" />
+          <EntitySet Name="Tb_Properties" EntityType="Self.Tb_Properties" />
+          <EntitySet Name="Tb_Users" EntityType="Self.Tb_Users" />
+          <AssociationSet Name="FK_Booking_Prop" Association="Self.FK_Booking_Prop">
+            <End Role="Tb_Properties" EntitySet="Tb_Properties" />
+            <End Role="Tb_Bookings" EntitySet="Tb_Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Booking_User" Association="Self.FK_Booking_User">
+            <End Role="Tb_Users" EntitySet="Tb_Users" />
+            <End Role="Tb_Bookings" EntitySet="Tb_Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pic_Prop" Association="Self.FK_Pic_Prop">
+            <End Role="Tb_Properties" EntitySet="Tb_Properties" />
+            <End Role="Tb_Pictures" EntitySet="Tb_Pictures" />
+          </AssociationSet>
+          <FunctionImport Name="sp_getLogin" ReturnType="Collection(RStateModel.sp_getLogin_Result)">
+            <Parameter Name="usr" Mode="In" Type="String" />
+            <Parameter Name="pwd" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_getPropList" ReturnType="Collection(RStateModel.sp_getPropList_Result)" />
+          <FunctionImport Name="sp_getUserList" ReturnType="Collection(RStateModel.sp_getUserList_Result)" />
+        </EntityContainer>
+        <ComplexType Name="sp_getLogin_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="UserPic" Nullable="true" />
+          <Property Type="String" Name="HashPwd" Nullable="false" MaxLength="256" />
+        </ComplexType>
+        <ComplexType Name="sp_getPropList_Result">
+          <Property Type="Int32" Name="Nob" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Location" Nullable="false" MaxLength="256" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="NoShare" Nullable="true" />
+          <Property Type="DateTime" Name="ExpDate" Nullable="false" Precision="23" />
+          <Property Type="Decimal" Name="Discount" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="String" Name="Criteria" Nullable="true" MaxLength="5" />
+          <Property Type="DateTime" Name="OfferStart" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="OfferEnd" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Notes" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_getUserList_Result">
+          <Property Type="Int32" Name="PropId" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CellNo" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="256" />
+          <Property Type="String" Name="City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="UserPic" Nullable="true" />
+          <Property Type="Decimal" Name="InvAmt" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="DateTime" Name="PostedOn" Nullable="false" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RStateModelStoreContainer" CdmEntityContainer="DbCon">
+          <EntitySetMapping Name="Tb_Bookings">
+            <EntityTypeMapping TypeName="RStateModel.Tb_Bookings">
+              <MappingFragment StoreEntitySet="Tb_Bookings">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PropId" ColumnName="PropId" />
+                <ScalarProperty Name="InvAmt" ColumnName="InvAmt" />
+                <ScalarProperty Name="IsAllow" ColumnName="IsAllow" />
+                <ScalarProperty Name="PostedOn" ColumnName="PostedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Pictures">
+            <EntityTypeMapping TypeName="RStateModel.Tb_Pictures">
+              <MappingFragment StoreEntitySet="Tb_Pictures">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PropId" ColumnName="PropId" />
+                <ScalarProperty Name="PicUrl" ColumnName="PicUrl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Properties">
+            <EntityTypeMapping TypeName="RStateModel.Tb_Properties">
+              <MappingFragment StoreEntitySet="Tb_Properties">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NoShare" ColumnName="NoShare" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Criteria" ColumnName="Criteria" />
+                <ScalarProperty Name="OfferStart" ColumnName="OfferStart" />
+                <ScalarProperty Name="OfferEnd" ColumnName="OfferEnd" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tb_Users">
+            <EntityTypeMapping TypeName="RStateModel.Tb_Users">
+              <MappingFragment StoreEntitySet="Tb_Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CellNo" ColumnName="CellNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Share" ColumnName="Share" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="UserPic" ColumnName="UserPic" />
+                <ScalarProperty Name="HashPwd" ColumnName="HashPwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_getLogin" FunctionName="RStateModel.Store.sp_getLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RStateModel.sp_getLogin_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserPic" ColumnName="UserPic" />
+                <ScalarProperty Name="HashPwd" ColumnName="HashPwd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_getPropList" FunctionName="RStateModel.Store.sp_getPropList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RStateModel.sp_getPropList_Result">
+                <ScalarProperty Name="Nob" ColumnName="Nob" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NoShare" ColumnName="NoShare" />
+                <ScalarProperty Name="ExpDate" ColumnName="ExpDate" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Criteria" ColumnName="Criteria" />
+                <ScalarProperty Name="OfferStart" ColumnName="OfferStart" />
+                <ScalarProperty Name="OfferEnd" ColumnName="OfferEnd" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_getUserList" FunctionName="RStateModel.Store.sp_getUserList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="RStateModel.sp_getUserList_Result">
+                <ScalarProperty Name="PropId" ColumnName="PropId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CellNo" ColumnName="CellNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="UserPic" ColumnName="UserPic" />
+                <ScalarProperty Name="InvAmt" ColumnName="InvAmt" />
+                <ScalarProperty Name="PostedOn" ColumnName="PostedOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
